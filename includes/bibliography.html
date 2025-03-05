@@ -1,0 +1,45 @@
+{% assign authorList = include.authors | strip_newlines | strip | split: ',' %}
+{% assign excludeList = include.excludeAuthors | strip_newlines | strip | split: ',' %}
+{% assign renderedEntries = false %}
+<table>
+    <thead>
+        <tr>
+            <th>[Quelle]</th>
+            <th>Herausgeber: Titel</th>
+        </tr>
+    </thead>
+    <tbody>
+{% for entry in site.data.bibliography.entries %}
+    {% assign render = true %}
+    {% if authorList.size > 0 %}
+        {% if authorList contains entry.author %}
+            {% assign render = true %}
+        {% else %}
+            {% assign render = false %}
+        {% endif %}
+    {% endif %}
+    {% if excludeList.size > 0 %}
+        {% if excludeList contains entry.author %}
+            {% assign render = false %}
+        {% endif %}
+    {% endif %}
+    {% if render == true %}
+    <tr>
+        <td class="bibliography-key">[{{ entry.key }}]</td>
+        <td class="bibliography-desc">
+            {{ entry.author }}: {{ entry.title }}. <a href="{{ entry.link }}" target="_blank">{{ entry.link }}</a> 
+        </td>
+    </tr>
+    {% assign renderedEntries = true %}
+    {% endif %}
+{% endfor %}
+{% if renderedEntries == false %}
+<tr>
+    <td class="bibliography-key">keine</td>
+    <td class="bibliography-desc">
+        &nbsp; 
+    </td>
+</tr>
+{% endif %}
+    </tbody>
+</table>

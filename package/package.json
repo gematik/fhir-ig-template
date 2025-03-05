@@ -1,0 +1,12 @@
+{
+    "name" : "gematik.ig.template",
+    "type" : "fhir.template",
+    "license" : "CC0-1.0",
+    "description" : "gematik FHIR IG Template",
+    "base" : "fhir.base.template",
+    "canonical": "https://github.com/gematik/fhir-ig-template",
+    "dependencies" : {
+      "fhir.base.template" : "0.8.1"
+    },
+    "version" : "0.0.1"
+  }

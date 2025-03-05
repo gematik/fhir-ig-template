@@ -1,0 +1,35 @@
+
+<table class="grid">
+    <colgroup>
+        <col style="width:20%">
+    </colgroup>
+    <tbody>
+    {% for resource in site.data.structuredefinitions %}
+        {% assign allowed = false %}
+        {% if include.type %}
+            {% if resource[1].type == include.type %}
+                {% assign allowed = true %}
+            {% endif %}
+        {% else %}
+            {% assign allowed = true %}
+        {% endif %}
+        {% if allowed == true %}
+         <tr>
+            <td style="column-width:30%">
+                <a href="{{ resource[1].path | default "-" }}" title="{{ resource[0] }}">
+                {% if resource[1].title %}
+                    {{ resource[1].title }}
+                {% else %}
+                    {{ resource[1].name | default "-" |  }}
+                {% endif %}
+                </a>
+            </td>
+            <td>
+                <p>{{ resource[1].description | default: "-" }}</p>
+            </td>
+         </tr>
+         {% endif %}
+    {% endfor %}
+    </tbody>
+</table>
+ 

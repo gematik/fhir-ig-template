@@ -1,0 +1,24 @@
+{
+    "package-id": "gematik.ig.template",
+    "title": "gematik FHIR IG Template",
+    "canonical": "https://github.com/gematik/fhir-ig-template",
+    "introduction": "gematik ePA FHIR Template",
+    "list": [
+      {
+        "version": "current",
+        "desc": "Continuous Integration Build (latest in version control)",
+        "path": "https://github.com/gematik/fhir-ig-template",
+        "status": "ci-build",
+        "current": true
+      },
+      {
+        "version": "0.0.1",
+        "desc": "First release",
+        "path": "http://fhir.org/templates/gematik.ig.template/0.0.1",
+        "status": "release",
+        "sequence": "Publications",
+        "current": true,
+        "date": "2025-01-24"
+      }
+    ]
+  }

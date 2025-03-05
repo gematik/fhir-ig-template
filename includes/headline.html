@@ -1,0 +1,30 @@
+{% if site.data.info.releaselabel != '' %}
+{% assign status = site.data.info.releaselabel %}
+{% else %}
+{% assign status = site.data.fhir.ig.status %}
+{% endif %}
+
+<div class="gem-ig-headline-container"> 
+    <div id="gem-ig-headline" class="col-lg-10 col-md-12">
+        <div class="gem-ig-headline-title">
+            {% include headline-title.html %}
+        </div>
+        <div id="ig-status" class="gem-ig-headline-subtitle">
+            <span style="display:inline-block;">Version {{site.data.fhir.ig.version}} - {{status}}
+                {% assign igId = site.data.fhir.ig.id | prepend: "ImplementationGuide/" %}
+                {% comment %}
+                {% for jurisdiction in site.data.resources[igId].jurisdictions %}
+                {% if jurisdiction.flag %}
+                  <img alt="{{jurisdiction.name}} flag" src="assets/images/{{jurisdiction.flag}}.svg" height="16" title="{{jurisdiction.name}}"/>
+                {% elsif jurisdiction.code %}
+                  <span title="{{jurisdiction.name}}">{{jurisdiction.code}}</span>
+                {% else %}
+                  {{jurisdiction.name}}
+                {% endif %}
+                {% endfor %}
+                {% endcomment %}
+            </span>
+            {% include headline-subtitle.html %}
+        </div>
+    </div>
+</div>

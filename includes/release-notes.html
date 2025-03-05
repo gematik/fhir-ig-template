@@ -1,0 +1,46 @@
+{% for release in site.data.release-notes.releases %}
+
+{% if release.version == include.version %}
+
+<table class="no-stripe release-notes">
+    {% for requirement in release.requirements %}
+    <tr>
+        <td>
+            <strong>
+            {% case requirement.release_status %}
+            {% when "NEW" %} NEU
+            {% when "MODIFIED" %} ÄND
+            {% when "MOVED" %} VERS
+            {% when "DELETED" %} DEL
+            {% else %} {{ requirement.release_status}}
+            {% endcase %}
+            </strong>
+        </td>
+        <td>
+            {% if include.with_links and requirement.release_status == "NEW" or requirement.release_status == "MODIFIED" or requirement.release_status == "MOVED" %}
+                <a class="requirement-link" href="./{{ requirement.path  | default "#" }}" data-anchor="{{ requirement.key }}{% if requirement.version > 1 %}-{{ requirement.version }}{% endif %}">
+                    {{ requirement.key }}{% if requirement.version > 1 %}-{{ requirement.version }}{% endif %}
+                </a>
+            {% else %}
+                <span>{{ requirement.key }}{% if requirement.version > 1 %}-{{ requirement.version }}{% endif %}</span>
+            {% endif %}
+        </td>
+        <td>
+            {{ requirement.title }}
+        </td>
+        <td>
+            {% for actor in requirement.actor %}{% if forloop.first %}{% endif %}<i>{{ actor }}</i>{% if forloop.last == false %},<br/> {% endif %}{% endfor %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+<div class="legend">
+    Legende:
+    <span><strong>NEU</strong> = Hinzugefügt</span> |  
+    <span><strong>ÄND</strong> = Geändert</span> |  
+    <span><strong>VERS</strong> = Verschoben</span> |  
+    <span><strong>DEL</strong> = Entfernt</span>
+</div>
+{% endif %}
+
+{% endfor %}
