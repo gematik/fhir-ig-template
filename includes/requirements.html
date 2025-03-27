@@ -21,9 +21,9 @@
             <td>
                 {% case req.conformance %}
                     {% when "SHALL" %} MUSS
-                    {% when "SHOULD" %} KANN
+                    {% when "SHOULD" %} SOLL
                     {% when "SHOULD NOT" %} DARF NICHT
-                    {% when "MAY" %} OPTIONAL
+                    {% when "MAY" %} KANN
                     {% else %} {{ req.conformance }}
                 {% endcase %}
             </td>
