@@ -28,9 +28,11 @@
         <td>
             {{ requirement.title }}
         </td>
+        {% comment %}
         <td>
             {% for actor in requirement.actor %}{% if forloop.first %}{% endif %}<i>{{ actor }}</i>{% if forloop.last == false %},<br/> {% endif %}{% endfor %}
         </td>
+        {% endcomment %}
     </tr>
     {% endfor %}
 </table>
