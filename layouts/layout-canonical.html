@@ -30,9 +30,11 @@
   </p>-->
 {% unless example %}
   {% if '{{[type]}}' == 'CapabilityStatement' %}
+  {% comment %}
   <p>
       <a href="{{[id]}}.openapi.json" no-download="true">Raw OpenAPI-Swagger Definition file</a> | <a href="{{[id]}}.openapi.json" download>Download</a>
   </p>
+  {% endcomment %}
   {% endif %}
 {% endunless %}
 
