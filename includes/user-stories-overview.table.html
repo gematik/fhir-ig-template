@@ -1,0 +1,38 @@
+{% assign scenario_user_story_ids = include.scenario_user_story_ids %}
+{% assign user_stories = include.user_stories %}
+{% assign roles = include.roles %}
+
+{% assign badge-colors = "gem-ig-badge-bg-orange,
+gem-ig-badge-bg-grey,
+gem-ig-badge-bg-green,
+gem-ig-badge-bg-blue,
+gem-ig-badge-bg-red,
+gem-ig-badge-bg-darkblue"  | split: "," %}
+
+<table>
+  <thead>
+    <tr>
+      <th>Titel</th>
+      {% for role in roles %}
+        <th>{{ role }}</th>
+      {% endfor %}
+    </tr>
+  </thead>
+  <tbody>
+    {% for scenario_story_id in scenario_user_story_ids %}
+      {% assign story = user_stories | where: "id", scenario_story_id | first %}
+      <tr>
+        <td><a href="{{ story.link }}">{{ story.title }}</a></td>
+        {% for role in roles %}
+          <td>
+            {% if story.roles contains role %}
+              <span class="badge gem-ig-badge {{ badge-colors[forloop.index0] }}" >
+                {{ role | upcase }}
+              </span>
+            {% endif %}
+          </td>
+        {% endfor %}
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
