@@ -1,5 +1,5 @@
-{% assign scenario_user_story_ids = include.scenario_user_story_ids %}
-{% assign user_stories = include.user_stories %}
+{% assign scenario_use_case_ids = include.scenario_use_case_ids %}
+{% assign use_cases = include.use_cases %}
 {% assign roles = include.roles %}
 
 {% assign badge-colors = "gem-ig-badge-bg-orange,
@@ -19,8 +19,8 @@ gem-ig-badge-bg-darkblue"  | split: "," %}
     </tr>
   </thead>
   <tbody>
-    {% for scenario_story_id in scenario_user_story_ids %}
-      {% assign story = user_stories | where: "id", scenario_story_id | first %}
+    {% for scenario_story_id in scenario_use_case_ids %}
+      {% assign story = use_cases | where: "id", scenario_story_id | first %}
       <tr>
         <td><a href="{{ story.link }}">{{ story.title }}</a></td>
         {% for role in roles %}
