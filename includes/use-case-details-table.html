@@ -1,0 +1,46 @@
+{% assign use_case = include.user_story_roles %}
+{% assign roles = include.roles %}
+
+{% assign badge-colors = "gem-ig-badge-bg-orange,
+gem-ig-badge-bg-grey,
+gem-ig-badge-bg-green,
+gem-ig-badge-bg-blue,
+gem-ig-badge-bg-red,
+gem-ig-badge-bg-darkblue"  | split: "," %}
+
+<table style="border: 1px solid #dcdcdc;">
+  <tr>
+    <th style="padding: 5px;">Beschreibung</th>
+    <td style="padding: 5px;">{{ use_case.description }}</td>
+  </tr>
+  <tr>
+    <th style="padding: 5px;">Vorbedingungen</th>
+    <td style="padding: 5px;">{{ use_case.precondition }}</td>
+  </tr>
+  <tr>
+    <th style="padding: 5px;">Durchzuführende Aktionen</th>
+    <td style="padding: 5px;">{{ use_case.actions }}</td>
+
+  </tr>
+  <tr>
+    <th style="padding: 5px;">Nachbedingungen</th>
+    <td style="padding: 5px;">{{ use_case.postconditions }}</td>
+  </tr>
+  <tr>
+    <th style="padding: 5px;">Unterstützende Schnittstelle(n) des Medication Service</th>
+    <td style="padding: 5px;">{{ use_case.relatedInterfaces }}</td>
+  </tr>
+  <tr>
+    <th style="padding: 5px;">Relevante(r) Sektor(en)</th>
+    <td style="padding: 5px;">
+      {% for role in roles %}
+        {% if use_case.roles contains role %}
+          <span class="badge gem-ig-badge {{ badge-colors[forloop.index0] }}" >
+            {{ role | upcase }}
+          </span>
+        {% endif %}
+      {% endfor %}
+    </td>
+  </tr>
+</table>
+
