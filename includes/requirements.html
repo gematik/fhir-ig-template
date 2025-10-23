@@ -15,8 +15,8 @@
     {% assign match = true %}
         <tr>
             <td>
-                <a class="requirement-link" href="./{{ req.path  | default "#" }}" data-anchor="{{ req.key }}{% if req.version > 0 %}-{{ req.version }}{% endif %}">
-                    {{ req.key }}{% if req.version > 0 %}-{{ req.version }}{% endif %}
+                <a class="requirement-link" href="./{{ req.path  | default "#" }}" data-anchor="{{ req.key }}{% if req.version > 0 %}-{{ req.version | prepend: "0" | slice: -2, 2 }}{% endif %}">
+                    {{ req.key }}{% if req.version > 0 %}-{{ req.version | prepend: "0" | slice: -2, 2 }}{% endif %}
                 </a>
             </td>
             <td>{{ req.title }}</td>

@@ -18,11 +18,11 @@
         </td>
         <td>
             {% if include.with_links and requirement.release_status == "NEW" or requirement.release_status == "MODIFIED" or requirement.release_status == "MOVED" %}
-                <a class="requirement-link" href="./{{ requirement.path  | default "#" }}" data-anchor="{{ requirement.key }}{% if requirement.version > 0 %}-{{ requirement.version }}{% endif %}">
-                    {{ requirement.key }}{% if requirement.version > 0 %}-{{ requirement.version }}{% endif %}
+                <a class="requirement-link" href="./{{ requirement.path  | default "#" }}" data-anchor="{{ requirement.key }}{% if requirement.version > 0 %}-{{ requirement.version | prepend: "0" | slice: -2, 2 }}{% endif %}">
+                    {{ requirement.key }}{% if requirement.version > 0 %}-{{ requirement.version | prepend: "0" | slice: -2, 2 }}{% endif %}
                 </a>
             {% else %}
-                <span>{{ requirement.key }}{% if requirement.version > 0 %}-{{ requirement.version }}{% endif %}</span>
+                <span>{{ requirement.key }}{% if requirement.version > 0 %}-{{ requirement.version | prepend: "0" | slice: -2, 2 }}{% endif %}</span>
             {% endif %}
         </td>
         <td>
