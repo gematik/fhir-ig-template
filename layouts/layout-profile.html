@@ -185,14 +185,14 @@
         <div id="tbl-isik-inner">
           <table class="lines">
             <thead>
-              <tr><th>Feldname</th><th>Kurzbeschreibung</th><th>Hinweise</th></tr>
+              <tr><th>Element</th><th>Short description</th><th>Notes</th></tr>
             </thead>
             <tbody>
               {% for row in msCommentsRows %}
               <tr>
-                <td>{{ row.Feldname }}</td>
-                <td>{{ row.Kurzbeschreibung }}</td>
-                <td>{{ row.Hinweise | markdownify }}</td>
+                <td>{{ row.Element }}</td>
+                <td>{{ row.Short }}</td>
+                <td>{{ row.Comment | markdownify }}</td>
               </tr>
               {% endfor %}
             </tbody>
