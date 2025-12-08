@@ -70,6 +70,14 @@
         <a href="#tabs-ttl">Pseudo-TTL</a>
       </li>-->
 {% endunless %}
+{% comment %}<!-- ISiK specific, needs to create a ms_comments json in the ISiK ig -->{% endcomment %}
+{% assign profile_url = site.data.structuredefinitions["{{[id]}}"].url %}
+{% assign msCommentsRows = site.data.ms_comments | where: "ProfileUrl", profile_url %}
+{% if msCommentsRows.size > 0 %}
+      <li>
+        <a href="#tabs-isik">Must-Support Comments</a>
+      </li>
+{% endif %}
       <li>
         <a href="#tabs-summ">Statistics/References</a>
       </li>
@@ -170,6 +178,29 @@
       </div>
     </div>-->
 {% endunless %}
+{% if msCommentsRows.size > 0 %}
+    <a name="tabs-isik"> </a>
+    <div id="tabs-isik">
+      <div id="tbl-isik">
+        <div id="tbl-isik-inner">
+          <table class="lines">
+            <thead>
+              <tr><th>Feldname</th><th>Kurzbeschreibung</th><th>Hinweise</th></tr>
+            </thead>
+            <tbody>
+              {% for row in msCommentsRows %}
+              <tr>
+                <td>{{ row.Feldname }}</td>
+                <td>{{ row.Kurzbeschreibung }}</td>
+                <td>{{ row.Hinweise | markdownify }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+{% endif %}
     <a name="tabs-summ"> </a>
     <div id="tabs-summ">
       <div id="tbl-summ">
