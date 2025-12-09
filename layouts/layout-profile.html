@@ -70,7 +70,7 @@
         <a href="#tabs-ttl">Pseudo-TTL</a>
       </li>-->
 {% endunless %}
-{% comment %}<!-- ISiK specific, needs to create a ms_comments json in the ISiK ig -->{% endcomment %}
+{% comment %}<!-- Needed to create a MS comment tab based on a json in the ig -->{% endcomment %}
 {% assign profile_url = site.data.structuredefinitions["{{[id]}}"].url %}
 {% assign msCommentsRows = site.data.ms_comments | where: "ProfileUrl", profile_url %}
 {% if msCommentsRows.size > 0 %}
