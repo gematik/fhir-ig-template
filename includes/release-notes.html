@@ -1,6 +1,57 @@
 <script type="text/javascript" src="assets/js/diff2html-ui.min.js"> </script>
 <link href="assets/css/diff2html.min.css" rel="stylesheet" />
 
+<script>
+    {% raw %}
+    var wrapperTemplate = 
+        `<div id="{{fileHtmlId}}" class="d2h-file-wrapper" data-lang="{{file.language}}" style="margin-bottom: 0;">
+            <div class="d2h-files-diff">
+                <div class="d2h-file-side-diff">
+                    <div class="d2h-code-wrapper">
+                        <table class="d2h-diff-table">
+                            <tbody class="d2h-diff-tbody">
+                            {{{diffs.left}}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="d2h-file-side-diff">
+                    <div class="d2h-code-wrapper">
+                        <table class="d2h-diff-table">
+                            <tbody class="d2h-diff-tbody">
+                            {{{diffs.right}}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+
+    var lineTemplate =
+        `<tr>
+            <td class="{{lineClass}} {{type}}">
+            {{{lineNumber}}}
+            </td>
+            <td class="{{type}}">
+                <div class="{{contentClass}}">
+                {{#prefix}}
+                    <span class="d2h-code-line-prefix">{{{prefix}}}</span>
+                {{/prefix}}
+                {{^prefix}}
+                    <span class="d2h-code-line-prefix">&nbsp;</span>
+                {{/prefix}}
+                {{#content}}
+                    <span class="d2h-code-line-ctn" style="white-space: normal;">{{{content}}}</span>
+                {{/content}}
+                {{^content}}
+                    <span class="d2h-code-line-ctn" style="white-space: normal;"><br></span>
+                {{/content}}
+                </div>
+            </td>
+        </tr>`
+    {% endraw %}
+</script>
+
 {% for release in site.data.release-notes.releases %}
 
 {% if release.version == include.version %}
@@ -81,55 +132,6 @@
                                     document.addEventListener("DOMContentLoaded", function() {
                                         var diffString = document.getElementById("diff-data-{{ diff_id }}").innerHTML.trim();
                                         var targetElement = document.getElementById("diff-ui-{{ diff_id }}");
-
-                                        {% raw %}
-                                        var wrapperTemplate = 
-                                            `<div id="{{fileHtmlId}}" class="d2h-file-wrapper" data-lang="{{file.language}}" style="margin-bottom: 0;">
-                                                <div class="d2h-files-diff">
-                                                    <div class="d2h-file-side-diff">
-                                                        <div class="d2h-code-wrapper">
-                                                            <table class="d2h-diff-table">
-                                                                <tbody class="d2h-diff-tbody">
-                                                                {{{diffs.left}}}
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                    <div class="d2h-file-side-diff">
-                                                        <div class="d2h-code-wrapper">
-                                                            <table class="d2h-diff-table">
-                                                                <tbody class="d2h-diff-tbody">
-                                                                {{{diffs.right}}}
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>`;
-
-                                        var lineTemplate =
-                                            `<tr>
-                                                <td class="{{lineClass}} {{type}}">
-                                                {{{lineNumber}}}
-                                                </td>
-                                                <td class="{{type}}">
-                                                    <div class="{{contentClass}}">
-                                                    {{#prefix}}
-                                                        <span class="d2h-code-line-prefix">{{{prefix}}}</span>
-                                                    {{/prefix}}
-                                                    {{^prefix}}
-                                                        <span class="d2h-code-line-prefix">&nbsp;</span>
-                                                    {{/prefix}}
-                                                    {{#content}}
-                                                        <span class="d2h-code-line-ctn" style="white-space: normal;">{{{content}}}</span>
-                                                    {{/content}}
-                                                    {{^content}}
-                                                        <span class="d2h-code-line-ctn" style="white-space: normal;"><br></span>
-                                                    {{/content}}
-                                                    </div>
-                                                </td>
-                                            </tr>`
-                                        {% endraw %}
 
                                         var configuration = {
                                             drawFileList: false, 
