@@ -118,9 +118,11 @@
                     <!-- Ein leichter Hintergrund und Rand helfen, den Diff vom restlichen Inhalt abzuheben -->
                     <div style="padding: 15px; background-color: #f8f9fa; margin-bottom: 10px;">
 
-                        {% for diff_item in requirement.diff %}
-                            {% assign key = diff_item[0] %}
-                            {% assign value = diff_item[1] %}
+                        {% assign ordered_keys = "title,conformance,text" | split: "," %}
+
+                        {% for key in ordered_keys %}
+
+                            {% assign value = requirement.diff[key] %}
 
                             {% if value != "" %}
 
