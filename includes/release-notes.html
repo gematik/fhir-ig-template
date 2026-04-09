@@ -56,7 +56,17 @@
 
 {% if release.version == include.version %}
 
-<table class="no-stripe release-notes">
+{% assign release_safe_id = include.version | replace: ".", "-" | replace: " ", "-" %}
+
+
+<table class="no-stripe release-notes" id="release-table-{{ release_safe_id }}">
+    <tr id="row-toggle-all-{{ release_safe_id }}" style="display: none;">
+        <td colspan="99" style="text-align: right; border: none; padding-bottom: 10px;">
+            <button id="btn-toggle-all-{{ release_safe_id }}" class="btn btn-outline-primary btn-sm" style="font-size: 0.75em; padding: 2px 6px; color: black;">
+                &#128269; Alle Details umschalten
+            </button>
+        </td>
+    </tr>
     {% for requirement in release.requirements %}
     <tr>
         <td>
@@ -82,10 +92,10 @@
         <td>
             <!-- Titel und Button in derselben Zelle -->
             {{ requirement.title }}
-            
+
             {% if requirement.diff != empty %}
                 <button class="btn btn-outline-primary btn-sm ms-2" 
-                        style="font-size: 0.75em; padding: 2px 6px; color: black; margin-left: 10px;" 
+                        style="font-size: 0.75em; padding: 2px 6px; color: black; margin-left: 10px; float: right;" 
                         type="button" 
                         data-toggle="collapse" 
                         data-bs-toggle="collapse" 
@@ -98,13 +108,13 @@
             {% endif %}
         </td>
     </tr>
-    
+
     {% if requirement.diff != empty %}
         <!-- Diese Zeile ist unsichtbar, bis sie aufgeklappt wird -->
         <tr>
             <td colspan="3" style="padding: 0; border: none;">
                 <!-- COLLAPSIBLE CONTENT AREA -->
-                <div class="collapse" id="diff-collapse-{{ requirement.key }}">
+                <div class="collapse diff-collapse-area" id="diff-collapse-{{ requirement.key }}">
                     <!-- Ein leichter Hintergrund und Rand helfen, den Diff vom restlichen Inhalt abzuheben -->
                     <div style="padding: 15px; background-color: #f8f9fa; margin-bottom: 10px;">
 
@@ -166,6 +176,67 @@
     <span><strong>VERS</strong> = Verschoben</span> |  
     <span><strong>DEL</strong> = Entfernt</span>
 </div>
+
+<!-- Script to handle the toggle all behavior safely across Bootstrap versions -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var toggleAllBtn = document.getElementById("btn-toggle-all-{{ release_safe_id }}");
+        var toggleAllRow = document.getElementById("row-toggle-all-{{ release_safe_id }}");
+        var tableContainer = document.getElementById("release-table-{{ release_safe_id }}");
+        
+        if (toggleAllBtn && tableContainer && toggleAllRow) {
+            var diffAreas = tableContainer.querySelectorAll('.diff-collapse-area');
+            
+            // Only show the row and attach the listener if there are diff areas
+            if (diffAreas.length > 0) {
+                toggleAllRow.style.display = 'table-row'; // Reveal the table row
+                
+                toggleAllBtn.addEventListener("click", function() {
+                    
+                    // Determine if ANY area is currently open
+                    var anyOpen = Array.from(diffAreas).some(function(el) {
+                        var isAriaExpanded = el.getAttribute('aria-expanded') === 'true';
+                        var hasShowClass = el.classList.contains('show') || el.classList.contains('in');
+                        // Some older bootstraps drop height to 0px, check if height is NOT 0px
+                        var isNotZeroHeight = el.style.height !== '' && el.style.height !== '0px'; 
+                        
+                        return isAriaExpanded || hasShowClass || isNotZeroHeight;
+                    });
+
+                    diffAreas.forEach(function(diffArea) {
+                        // 1. Prefer jQuery / Bootstrap's native collapse API if available
+                        if (typeof window.jQuery !== 'undefined' && typeof window.jQuery.fn.collapse !== 'undefined') {
+                            window.jQuery(diffArea).collapse(anyOpen ? 'hide' : 'show');
+                        } 
+                        // 2. Fallback to Bootstrap 5 Vanilla JS API
+                        else if (typeof bootstrap !== 'undefined' && bootstrap.Collapse) {
+                            var bsCollapse = bootstrap.Collapse.getInstance(diffArea);
+                            if (!bsCollapse) {
+                                bsCollapse = new bootstrap.Collapse(diffArea, { toggle: false });
+                            }
+                            anyOpen ? bsCollapse.hide() : bsCollapse.show();
+                        } 
+                        // 3. Absolute Fallback: Manually toggle the styles/attributes
+                        else {
+                            if (anyOpen) {
+                                diffArea.style.height = '0px';
+                                diffArea.setAttribute('aria-expanded', 'false');
+                                diffArea.classList.remove('show', 'in');
+                            } else {
+                                diffArea.style.height = 'auto';
+                                diffArea.setAttribute('aria-expanded', 'true');
+                                diffArea.classList.add('show', 'in');
+                            }
+                        }
+                    });
+                });
+            }
+        }
+    });
+</script>
+
 {% endif %}
 
 {% endfor %}
+
+
