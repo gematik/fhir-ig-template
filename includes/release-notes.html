@@ -41,10 +41,10 @@
                     <span class="d2h-code-line-prefix">&nbsp;</span>
                 {{/prefix}}
                 {{#content}}
-                    <span class="d2h-code-line-ctn" style="white-space: normal;">{{{content}}}</span>
+                    <span class="d2h-code-line-ctn" style="white-space: normal; color: dimgray;">{{{content}}}</span>
                 {{/content}}
                 {{^content}}
-                    <span class="d2h-code-line-ctn" style="white-space: normal;"><br></span>
+                    <span class="d2h-code-line-ctn" style="white-space: normal; color:  dimgray;"><br></span>
                 {{/content}}
                 </div>
             </td>
@@ -90,7 +90,6 @@
             {% endif %}
         </td>
         <td>
-            <!-- Titel und Button in derselben Zelle -->
             {{ requirement.title }}
 
             {% if requirement.diff != empty %}
@@ -110,12 +109,11 @@
     </tr>
 
     {% if requirement.diff != empty %}
-        <!-- Diese Zeile ist unsichtbar, bis sie aufgeklappt wird -->
+        <!-- This row is invisible when collapsed -->
         <tr>
             <td colspan="3" style="padding: 0; border: none;">
                 <!-- COLLAPSIBLE CONTENT AREA -->
                 <div class="collapse diff-collapse-area" id="diff-collapse-{{ requirement.key }}">
-                    <!-- Ein leichter Hintergrund und Rand helfen, den Diff vom restlichen Inhalt abzuheben -->
                     <div style="padding: 15px; background-color: #f8f9fa; margin-bottom: 10px;">
 
                         {% assign ordered_keys = "title,conformance,text" | split: "," %}
@@ -128,7 +126,6 @@
 
                                 <p style="margin-bottom: 2px;"><strong>{{ key | capitalize }}:</strong></p>
 
-                                <!-- Unique ID using requirement key AND diff key -->
                                 {% assign diff_id = requirement.key | append: "-" | append: key %}
 
                                 <!-- Target Div -->
@@ -179,7 +176,7 @@
     <span><strong>DEL</strong> = Entfernt</span>
 </div>
 
-<!-- Script to handle the toggle all behavior safely across Bootstrap versions -->
+<!-- Script to handle the toggle all behavior across Bootstrap versions -->
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         var toggleAllBtn = document.getElementById("btn-toggle-all-{{ release_safe_id }}");
