@@ -94,7 +94,7 @@
 
             {% assign requirement_safe_key = requirement.key | replace: ".", "-" | replace: " ", "-" %}
 
-            {% if requirement.diff != empty %}
+            {% if requirement.release_status == "MODIFIED" and requirement.diff != empty %}
                 <button class="btn btn-outline-primary btn-sm ms-2" 
                         style="font-size: 0.75em; padding: 2px 6px; color: black; margin-left: 10px; float: right;" 
                         type="button" 
@@ -110,7 +110,7 @@
         </td>
     </tr>
 
-    {% if requirement.diff != empty %}
+    {% if requirement.release_status == "MODIFIED" and requirement.diff != empty %}
         <!-- This row is invisible when collapsed -->
         <tr>
             <td colspan="3" style="padding: 0; border: none;">
