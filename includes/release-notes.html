@@ -92,14 +92,16 @@
         <td>
             {{ requirement.title }}
 
+            {% assign requirement_safe_key = requirement.key | replace: ".", "-" | replace: " ", "-" %}
+
             {% if requirement.diff != empty %}
                 <button class="btn btn-outline-primary btn-sm ms-2" 
                         style="font-size: 0.75em; padding: 2px 6px; color: black; margin-left: 10px; float: right;" 
                         type="button" 
                         data-toggle="collapse" 
                         data-bs-toggle="collapse" 
-                        data-target="#diff-collapse-{{ requirement.key }}" 
-                        data-bs-target="#diff-collapse-{{ requirement.key }}" 
+                        data-target="#diff-collapse-{{ requirement_safe_key }}" 
+                        data-bs-target="#diff-collapse-{{ requirement_safe_key }}" 
                         aria-expanded="false" 
                         title="Änderungsdetails anzeigen">
                     &#128269; Details
@@ -112,8 +114,8 @@
         <!-- This row is invisible when collapsed -->
         <tr>
             <td colspan="3" style="padding: 0; border: none;">
-                <!-- COLLAPSIBLE CONTENT AREA -->
-                <div class="collapse diff-collapse-area" id="diff-collapse-{{ requirement.key }}">
+                <!-- collapsible content area -->
+                <div class="collapse diff-collapse-area" id="diff-collapse-{{ requirement_safe_key }}">
                     <div style="padding: 15px; background-color: #f8f9fa; margin-bottom: 10px;">
 
                         {% assign ordered_keys = "title,conformance,text" | split: "," %}
@@ -126,7 +128,7 @@
 
                                 <p style="margin-bottom: 2px;"><strong>{{ key | capitalize }}:</strong></p>
 
-                                {% assign diff_id = requirement.key | append: "-" | append: key %}
+                                {% assign diff_id = requirement_safe_key | append: "-" | append: key %}
 
                                 <!-- Target Div -->
                                 <div id="diff-ui-{{ diff_id }}" style="border: 1px solid #ddd; border-radius: 4px; background-color: #ffffff;"></div>
