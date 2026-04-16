@@ -92,25 +92,33 @@
         <td>
             {{ requirement.title }}
 
-            {% assign requirement_safe_key = requirement.key | replace: ".", "-" | replace: " ", "-" %}
+            {% assign diff = "" %}
 
-            {% if requirement.release_status == "MODIFIED" and requirement.diff != empty %}
-                <button class="btn btn-outline-primary btn-sm ms-2" 
-                        style="font-size: 0.75em; padding: 2px 6px; color: black; margin-left: 10px; float: right;" 
-                        type="button" 
-                        data-toggle="collapse" 
-                        data-bs-toggle="collapse" 
-                        data-target="#diff-collapse-{{ requirement_safe_key }}" 
-                        data-bs-target="#diff-collapse-{{ requirement_safe_key }}" 
-                        aria-expanded="false" 
-                        title="Änderungsdetails anzeigen">
-                    &#128269; Details
-                </button>
+            {% if include.diff_to and requirement.release_status == "MODIFIED" %}
+
+                {% assign requirement_safe_key = requirement.key | replace: ".", "-" | replace: " ", "-" %}
+
+                {% assign diff = requirement.diff[include.diff_to] %}
+
+                {% if diff != empty %}
+                    <button class="btn btn-outline-primary btn-sm ms-2" 
+                            style="font-size: 0.75em; padding: 2px 6px; color: black; margin-left: 10px; float: right;" 
+                            type="button" 
+                            data-toggle="collapse" 
+                            data-bs-toggle="collapse" 
+                            data-target="#diff-collapse-{{ requirement_safe_key }}" 
+                            data-bs-target="#diff-collapse-{{ requirement_safe_key }}" 
+                            aria-expanded="false" 
+                            title="Änderungsdetails anzeigen">
+                        &#128269; Details
+                    </button>
+                {% endif %}
+
             {% endif %}
         </td>
     </tr>
 
-    {% if requirement.release_status == "MODIFIED" and requirement.diff != empty %}
+    {% if diff != empty %}
         <!-- This row is invisible when collapsed -->
         <tr>
             <td colspan="3" style="padding: 0; border: none;">
@@ -122,7 +130,7 @@
 
                         {% for key in ordered_keys %}
 
-                            {% assign value = requirement.diff[key] %}
+                            {% assign value = diff[key] %}
 
                             {% if value != "" %}
 
