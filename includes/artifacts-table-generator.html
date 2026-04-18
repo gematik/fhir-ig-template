@@ -16,7 +16,8 @@
                 {% assign allowed = true %}
             {% endif%}
         {% elsif include.resourceType %}
-            {% if resource[0] contains include.resourceType %}
+            {% assign resourceType = resource[0] | split: '/' | first %}
+            {% if resourceType == include.resourceType %}
                 {% assign allowed = true %}
             {% endif %}
         {% else %}
