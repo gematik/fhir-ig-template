@@ -12,13 +12,13 @@
         "current": true
       },
       {
-        "version": "0.0.2",
+        "version": "0.0.3",
         "desc": "First release",
         "path": "http://fhir.org/templates/gematik.ig.template/0.0.2",
         "status": "release",
         "sequence": "Publications",
         "current": true,
-        "date": "2026-03-13"
+        "date": "2026-04-30"
       }
     ]
   }
