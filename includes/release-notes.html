@@ -92,8 +92,10 @@
 
                                 {% assign diff_id = requirement_safe_key | append: "-" | append: key %}
 
-                                <!-- Target Div with diff data -->
-                                <div id="diff-ui-{{ diff_id }}" data-diff-content="{{ value | escape }}" style="border: 1px solid #ddd; border-radius: 4px; background-color: #ffffff;"></div>
+                                <!-- Hidden textarea to preserve raw diff content -->
+                                <textarea id="diff-data-{{ diff_id }}" style="display: none;">{{ value }}</textarea>
+                                <!-- Target Div -->
+                                <div id="diff-ui-{{ diff_id }}" style="border: 1px solid #ddd; border-radius: 4px; background-color: #ffffff;"></div>
                             {% endif %}
 
                         {% endfor %}

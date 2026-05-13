@@ -50,9 +50,13 @@ document.addEventListener("DOMContentLoaded", function() {
     // Initialize all diff renderers
     var diffElements = document.querySelectorAll('[id^="diff-ui-"]');
     diffElements.forEach(function(element) {
-        var diffData = element.getAttribute('data-diff-content');
+        var diffId = element.id.replace('diff-ui-', '');
+        var textareaElement = document.getElementById("diff-data-" + diffId);
 
-        if (diffData) {
+        if (textareaElement) {
+            var diffData = textareaElement.value;
+
+            if (diffData) {
                 var configuration = {
                     drawFileList: false,
                     matching: 'words',
@@ -66,6 +70,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 var diff2htmlUi = new Diff2HtmlUI(element, diffData, configuration);
                 diff2htmlUi.draw();
             }
+        }
     });
 
     // Initialize all toggle buttons
