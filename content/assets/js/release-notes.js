@@ -51,10 +51,10 @@ document.addEventListener("DOMContentLoaded", function() {
     var diffElements = document.querySelectorAll('[id^="diff-ui-"]');
     diffElements.forEach(function(element) {
         var diffId = element.id.replace('diff-ui-', '');
-        var textareaElement = document.getElementById("diff-data-" + diffId);
+        var dataElement = document.getElementById("diff-data-" + diffId);
 
-        if (textareaElement) {
-            var diffData = textareaElement.value;
+        if (dataElement) {
+            var diffData = dataElement.textContent;
 
             if (diffData) {
                 var configuration = {
