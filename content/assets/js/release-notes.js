@@ -46,31 +46,35 @@ var lineTemplate =
         </td>
     </tr>`
 
-function initializeDiffRenderer(diffId) {
-    document.addEventListener("DOMContentLoaded", function() {
-        var diffString = document.getElementById("diff-data-" + diffId).innerHTML.trim();
-        var targetElement = document.getElementById("diff-ui-" + diffId);
+document.addEventListener("DOMContentLoaded", function() {
+    // Initialize all diff renderers
+    var diffElements = document.querySelectorAll('[id^="diff-ui-"]');
+    diffElements.forEach(function(element) {
+        var diffData = element.getAttribute('data-diff-content');
 
-        var configuration = {
-            drawFileList: false,
-            matching: 'words',
-            outputFormat: 'side-by-side',
-            renderNothingWhenEmpty: false,
-            rawTemplates: {
-                "side-by-side-file-diff": wrapperTemplate,
-                "generic-line": lineTemplate
+        if (diffData) {
+                var configuration = {
+                    drawFileList: false,
+                    matching: 'words',
+                    outputFormat: 'side-by-side',
+                    renderNothingWhenEmpty: false,
+                    rawTemplates: {
+                        "side-by-side-file-diff": wrapperTemplate,
+                        "generic-line": lineTemplate
+                    }
+                };
+                var diff2htmlUi = new Diff2HtmlUI(element, diffData, configuration);
+                diff2htmlUi.draw();
             }
-        };
-        var diff2htmlUi = new Diff2HtmlUI(targetElement, diffString, configuration);
-        diff2htmlUi.draw();
     });
-}
 
-function initializeToggleAll(releaseId) {
-    document.addEventListener("DOMContentLoaded", function() {
+    // Initialize all toggle buttons
+    var releaseTables = document.querySelectorAll('table[id^="release-table-"]');
+    releaseTables.forEach(function(table) {
+        var releaseId = table.id.replace('release-table-', '');
         var toggleAllBtn = document.getElementById("btn-toggle-all-" + releaseId);
         var toggleAllRow = document.getElementById("row-toggle-all-" + releaseId);
-        var tableContainer = document.getElementById("release-table-" + releaseId);
+        var tableContainer = table;
 
         if (toggleAllBtn && tableContainer && toggleAllRow) {
             var diffAreas = tableContainer.querySelectorAll('.diff-collapse-area');
@@ -114,4 +118,4 @@ function initializeToggleAll(releaseId) {
             }
         }
     });
-}
+});

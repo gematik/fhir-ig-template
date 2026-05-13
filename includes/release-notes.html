@@ -92,18 +92,8 @@
 
                                 {% assign diff_id = requirement_safe_key | append: "-" | append: key %}
 
-                                <!-- Target Div -->
-                                <div id="diff-ui-{{ diff_id }}" style="border: 1px solid #ddd; border-radius: 4px; background-color: #ffffff;"></div>
-
-                                <!-- Hidden Raw Diff Data -->
-                                <script type="text/template" id="diff-data-{{ diff_id }}">
-                                    {{ value }}
-                                </script>
-
-                                <!-- Render Script -->
-                                <script>
-                                    initializeDiffRenderer("{{ diff_id }}");
-                                </script>
+                                <!-- Target Div with diff data -->
+                                <div id="diff-ui-{{ diff_id }}" data-diff-content="{{ value | escape }}" style="border: 1px solid #ddd; border-radius: 4px; background-color: #ffffff;"></div>
                             {% endif %}
 
                         {% endfor %}
@@ -118,16 +108,11 @@
 
 <div class="legend">
     Legende:
-    <span><strong>NEU</strong> = Hinzugefügt</span> |  
-    <span><strong>ÄND</strong> = Geändert</span> |  
-    <span><strong>VERS</strong> = Verschoben</span> |  
+    <span><strong>NEU</strong> = Hinzugefügt</span> |
+    <span><strong>ÄND</strong> = Geändert</span> |
+    <span><strong>VERS</strong> = Verschoben</span> |
     <span><strong>DEL</strong> = Entfernt</span>
 </div>
-
-<!-- Script to handle the toggle all behavior across Bootstrap versions -->
-<script>
-    initializeToggleAll("{{ release_safe_id }}");
-</script>
 
 {% endif %}
 
