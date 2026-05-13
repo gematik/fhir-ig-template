@@ -1,5 +1,5 @@
 // Release notes templates and rendering logic
-var wrapperTemplate =
+const wrapperTemplate =
     `<div id="{{fileHtmlId}}" class="d2h-file-wrapper" data-lang="{{file.language}}" style="margin-bottom: 0;">
         <div class="d2h-files-diff">
             <div class="d2h-file-side-diff">
@@ -23,7 +23,7 @@ var wrapperTemplate =
         </div>
     </div>`;
 
-var lineTemplate =
+const lineTemplate =
     `<tr>
         <td class="{{lineClass}} {{type}}">
         {{{lineNumber}}}
@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function() {
         var dataElement = document.getElementById("diff-data-" + diffId);
 
         if (dataElement) {
-            var diffData = dataElement.textContent;
+            var diffData = dataElement.textContent.trim();
 
             if (diffData) {
                 var configuration = {
