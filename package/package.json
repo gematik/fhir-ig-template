@@ -6,7 +6,7 @@
     "base" : "fhir.base.template",
     "canonical": "https://github.com/gematik/fhir-ig-template",
     "dependencies" : {
-      "fhir.base.template" : "0.8.1"
+      "fhir.base.template" : "1.0.0"
     },
-    "version" : "0.0.3"
+    "version" : "0.0.4"
   }
