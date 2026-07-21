@@ -1,50 +1,12 @@
-// Release notes templates and rendering logic
-const wrapperTemplate =
-    `<div id="{{fileHtmlId}}" class="d2h-file-wrapper" data-lang="{{file.language}}" style="margin-bottom: 0;">
-        <div class="d2h-files-diff">
-            <div class="d2h-file-side-diff">
-                <div class="d2h-code-wrapper">
-                    <table class="d2h-diff-table">
-                        <tbody class="d2h-diff-tbody">
-                        {{{diffs.left}}}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="d2h-file-side-diff">
-                <div class="d2h-code-wrapper">
-                    <table class="d2h-diff-table">
-                        <tbody class="d2h-diff-tbody">
-                        {{{diffs.right}}}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>`;
-
-const lineTemplate =
-    `<tr>
-        <td class="{{lineClass}} {{type}}">
-        {{{lineNumber}}}
-        </td>
-        <td class="{{type}}">
-            <div class="{{contentClass}}">
-            {{#prefix}}
-                <span class="d2h-code-line-prefix">{{{prefix}}}</span>
-            {{/prefix}}
-            {{^prefix}}
-                <span class="d2h-code-line-prefix">&nbsp;</span>
-            {{/prefix}}
-            {{#content}}
-                <span class="d2h-code-line-ctn" style="white-space: normal; color: dimgray;">{{{content}}}</span>
-            {{/content}}
-            {{^content}}
-                <span class="d2h-code-line-ctn" style="white-space: normal; color:  dimgray;"><br></span>
-            {{/content}}
-            </div>
-        </td>
-    </tr>`
+// Release notes rendering logic
+//
+// NOTE: Do not pass custom `rawTemplates` to Diff2HtmlUI. Custom raw templates are
+// compiled at runtime via Hogan (`new Function(...)`), which violates the Content
+// Security Policy (`script-src` without `'unsafe-eval'`) on the publishing server.
+// The diff2html default templates are pre-compiled into the bundle and require no
+// runtime compilation. The previous cosmetic customizations (hidden file header,
+// no bottom margin, wrapped dimgray content lines) are applied via CSS instead
+// (see `ig.req.gematik.css`).
 
 document.addEventListener("DOMContentLoaded", function() {
     // Initialize all diff renderers
@@ -61,11 +23,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     drawFileList: false,
                     matching: 'words',
                     outputFormat: 'side-by-side',
-                    renderNothingWhenEmpty: false,
-                    rawTemplates: {
-                        "side-by-side-file-diff": wrapperTemplate,
-                        "generic-line": lineTemplate
-                    }
+                    renderNothingWhenEmpty: false
                 };
                 var diff2htmlUi = new Diff2HtmlUI(element, diffData, configuration);
                 diff2htmlUi.draw();
